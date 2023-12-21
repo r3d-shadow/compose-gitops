@@ -1,0 +1,20 @@
+version: '3'
+
+networks:
+  dind:
+    name: dind
+
+services:
+  dind:
+    build:
+      context: .
+      dockerfile: Dockerfile  
+    container_name: dind
+    networks:
+      - dind
+    volumes:
+      - ./repositories.json:/utils/repositories.json
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # For persistent storage, map the location with deploy folder
+      - /tmp/test:/deploy
+    restart: unless-stopped
