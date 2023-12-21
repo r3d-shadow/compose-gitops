@@ -1,9 +1,10 @@
 {
   "repositories": [
     {
-      "repository": "github.com/redsh4d0w/helloworld.git",
+      "repository": "github.com/redsh4d0w/helloworld.git", 
       "branch": "main",
-      "oauth2Token": "TOKEN"
+      "oauth2Token": "TOKEN",
+      "dockerComposePath": "utils/deploy"
     }
   ]
 }

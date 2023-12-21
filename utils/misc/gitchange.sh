@@ -1,5 +1,6 @@
 #!/bin/bash
 
+BRANCH_NAME="main"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd $SCRIPT_DIR
 
@@ -11,7 +12,7 @@ LOCAL_COMMIT=$(git rev-parse HEAD)
 git fetch
 
 # Get the latest commit hash of the remote branch
-REMOTE_COMMIT=$(git rev-parse origin/main)
+REMOTE_COMMIT=$(git rev-parse origin/$BRANCH_NAME)
 
 # Compare the local and remote commit hashes
 if [ "$LOCAL_COMMIT" != "$REMOTE_COMMIT" ]; then
