@@ -1,0 +1,5 @@
+repositories:
+  - repository: "github.com/redsh4d0w/helloworld.git"
+    branch: "dev"
+    oauth2Token: "TOKEN"
+    dockerComposePath: "utils/deploy"
