@@ -21,3 +21,10 @@ def monitor_change(branch):
     else:
         print("{}: No changes in Git repository. Deployment skipped.".format(datetime.now()))
         return False
+
+def git_pull():
+    try:
+        subprocess.run(["git", "pull"], check=True)
+        print("Git pull successful")
+    except subprocess.CalledProcessError as e:
+        print(f"Git pull failed with error: {e}")

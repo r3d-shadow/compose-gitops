@@ -5,6 +5,7 @@ import yaml
 import schedule
 import time
 from git_helper import monitor_change as git_monitor_change
+from docker_helper import docker_compose_up, docker_system_prune
 
 deploy_path = "/deploy"
 repositories_file = "/src/repositories.yaml"
@@ -34,7 +35,10 @@ def monitor_change(repositories):
     for repostory in repositories:
         os.chdir(repostory["dockerComposePath"],)
         git_monitor_change_result = git_monitor_change(repostory["branch"])
-        print(git_monitor_change_result)
+        if(git_monitor_change_result):
+            docker_compose_up()
+            docker_system_prune()
+
 
 # Schedule the job to run every minute
 main_result = main()

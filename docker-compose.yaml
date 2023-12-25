@@ -1,17 +1,17 @@
 version: '3'
 
 networks:
-  dind:
-    name: dind
+  compose-gitops:
+    name: compose-gitops
 
 services:
-  dind:
+  compose-gitops:
     build:
       context: .
       dockerfile: Dockerfile  
-    container_name: dind
+    container_name: compose-gitops
     networks:
-      - dind
+      - compose-gitops
     volumes:
       - ./repositories.yaml:/src/repositories.yaml
       - /var/run/docker.sock:/var/run/docker.sock:ro
