@@ -25,6 +25,7 @@ def main():
 
         # Clone the repository
         subprocess.run(['git', 'clone', f'https://oauth2:{oauth2Token}@{repository}', '--depth', '1', '--single-branch', '--branch', branch], cwd=deploy_path, check=True)
+        
         repo_name = os.path.basename(repository).rstrip('.git')
         repo["dockerComposePath"] = os.path.join(deploy_path, repo_name, dockerComposePath)
         del repo["oauth2Token"]
@@ -42,6 +43,7 @@ def monitor_change(repositories):
 
 # Schedule the job to run every minute
 main_result = main()
+print("Main function has been completed")
 schedule.every(10).seconds.do(monitor_change, repositories=main_result)
 
 # Run the scheduler continuously

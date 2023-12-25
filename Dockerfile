@@ -9,4 +9,4 @@ RUN pip install -r /src/requirements.txt
 RUN curl -SL https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose
 
-CMD [ "python3", "/src/index.py" ]
+CMD [ "bash", "-c", "python3 -u /src/index.py" ]
