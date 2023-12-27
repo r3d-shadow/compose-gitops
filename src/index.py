@@ -38,6 +38,9 @@ def main():
 
         repo["dockerComposePath"] = os.path.join(deploy_path, repo_name, dockerComposePath)
         del repo["oauth2Token"]
+        os.chdir(repo["dockerComposePath"],)
+        docker_compose_up()
+        docker_system_prune()
     return repositories
 
 
