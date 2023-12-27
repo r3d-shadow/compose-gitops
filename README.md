@@ -18,7 +18,7 @@ To quickly set up Compose GitOps, follow these steps:
     
     
     ```bash
-    curl -o docker-compose.yml https://raw.githubusercontent.com/redsh4d0w/compose-gitops/main/docker-compose.yml
+    curl -o docker-compose.yaml https://raw.githubusercontent.com/redsh4d0w/compose-gitops/main/docker-compose.yaml
     ``` 
     
     This command retrieves the latest `docker-compose.yml` file from the repository.
