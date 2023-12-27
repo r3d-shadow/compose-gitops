@@ -53,6 +53,30 @@ To quickly set up Compose GitOps, follow these steps:
     
     This command launches the Compose GitOps service in the background, configured based on your adjusted `docker-compose.yml` and `repositories.yaml` files.
 
+
+### Version 2.0 (Upcoming Features)
+
+#### 1. Docker Auto Login Functionality
+
+-   **Description:** Implement automatic Docker login functionality to simplify the management of private Docker repositories.
+    
+-   **Steps:**
+    
+    -   Integrate Docker credentials securely into the Compose GitOps service.
+    -   Automate Docker login within the tool for seamless access to private repositories.
+-   **Expected Outcome:** Users will be able to manage private Docker repositories effortlessly without manual login steps.
+    
+
+#### 2. `repositories.yaml` File Change Detection and Auto-Update
+
+-   **Description:** Enhance the tool to detect changes in the `repositories.yaml` file and automatically update the configurations without manual intervention.
+    
+-   **Steps:**
+    
+    -   Implement a change detection mechanism for the `repositories.yaml` file.
+    -   Develop an automatic update process triggered by changes in the configuration file.
+-   **Expected Outcome:** Simplify the management of Git repositories by automatically reflecting changes made to the `repositories.yaml` file.
+
 ## Contributing
 
 Feel free to contribute to the development of Compose GitOps. Fork the repository, make your changes, and submit a pull request.
