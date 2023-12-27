@@ -1,2 +1,2 @@
-# dockercompose-gitops
+# compose-gitops
 This project serves as a hands-on guide to implementing GitOps principles using Docker Compose
