@@ -6,12 +6,10 @@ networks:
 
 services:
   compose-gitops:
-    build:
-      context: .
-      dockerfile: Dockerfile  
+    image: redsh4d0w/compose-gitops:latest
     container_name: compose-gitops
     environment:
-      - SYNC_TIMEOUT=10 # Default timeout is 5min
+      - SYNC_TIMEOUT=1 # Default timeout is 5min
     networks:
       - compose-gitops
     volumes:
