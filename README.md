@@ -29,6 +29,11 @@ To quickly set up Compose GitOps, follow these steps:
         
         -   Adjust the persistent storage folder by updating the volume mapping.
         -   Ensure the `repositories.yaml` file is mounted appropriately.
+        -   If dealing with private repositories, map the Docker configuration file by adding the following volume:
+        ```yaml
+        volumes:
+        - ~/.docker/config.json:/root/.docker/config.json:ro
+        ```
     -   Edit the `repositories.yaml` file:
         
         -   Include details of the Git repositories you wish to manage.

@@ -17,4 +17,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # For persistent storage, map the location with deploy folder
       - /tmp/test:/deploy
+      # For private repositories
+      # - ~/.docker/config.json:/root/.docker/config.json:ro
     restart: unless-stopped
