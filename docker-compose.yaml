@@ -11,7 +11,7 @@ services:
       dockerfile: Dockerfile  
     container_name: compose-gitops
     environment:
-      - SYNC_TIMEOUT=1 # Default timeout is 5
+      - SYNC_TIMEOUT=10 # Default timeout is 5min
     networks:
       - compose-gitops
     volumes:

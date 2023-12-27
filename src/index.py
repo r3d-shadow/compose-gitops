@@ -24,10 +24,18 @@ def main():
         oauth2Token = repo.get('oauth2Token', '')
         dockerComposePath = repo.get('dockerComposePath', '')
 
-        # Clone the repository
-        subprocess.run(['git', 'clone', f'https://oauth2:{oauth2Token}@{repository}', '--depth', '1', '--single-branch', '--branch', branch], cwd=deploy_path, check=True)
-
         repo_name = os.path.basename(repository).rstrip('.git')
+        repo_path = os.path.join(deploy_path, repo_name)
+
+        # Check if the repository directory already exists
+        if os.path.exists(repo_path):
+            # If the directory exists, set the remote URL
+            subprocess.run(['git', 'remote', 'set-url', 'origin', f'https://oauth2:{oauth2Token}@{repository}'], cwd=repo_path, check=True)
+            subprocess.run(['git', 'checkout', branch], cwd=repo_path, check=True)
+        else:
+            # Clone the repository
+            subprocess.run(['git', 'clone', f'https://oauth2:{oauth2Token}@{repository}', '--depth', '1', '--single-branch', '--branch', branch], cwd=deploy_path, check=True)
+
         repo["dockerComposePath"] = os.path.join(deploy_path, repo_name, dockerComposePath)
         del repo["oauth2Token"]
     return repositories
