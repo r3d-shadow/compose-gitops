@@ -4,7 +4,7 @@ import shutil
 import yaml
 import schedule
 import time
-from git_helper import monitor_change as git_monitor_change
+from git_helper import monitor_change as git_monitor_change, git_pull
 from docker_helper import docker_compose_up, docker_system_prune
 
 sync_timeouts = int(os.getenv('SYNC_TIMEOUT', 5))
@@ -49,6 +49,7 @@ def monitor_change(repositories):
         os.chdir(repostory["dockerComposePath"],)
         git_monitor_change_result = git_monitor_change(repostory["branch"])
         if(git_monitor_change_result):
+            git_pull()
             docker_compose_up()
             docker_system_prune()
 
