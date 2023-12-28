@@ -6,7 +6,7 @@ networks:
 
 services:
   compose-gitops:
-    image: redsh4d0w/compose-gitops:cg-70be7ef
+    image: redsh4d0w/compose-gitops:cg-968b2aa
     container_name: compose-gitops
     environment:
       - SYNC_TIMEOUT=1 # Default timeout is 5min
