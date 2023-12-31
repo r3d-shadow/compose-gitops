@@ -16,6 +16,13 @@ Compose GitOps is a tool designed to automate the deployment and synchronization
 Before using Compose GitOps, ensure that you have the following prerequisites installed:
 -   Docker
 
+## Demo
+
+See Compose GitOps in action:
+
+![Demo](utils/demo/demo.gif)
+
+
 ## Installation &  Configuration
 
 To quickly set up Compose GitOps, follow these steps:
