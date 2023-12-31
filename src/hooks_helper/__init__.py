@@ -1,0 +1,1 @@
+from .hooks_helper import execute_inline_script

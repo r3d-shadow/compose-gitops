@@ -6,6 +6,7 @@ import schedule
 import time
 from git_helper import monitor_change as git_monitor_change, git_pull
 from docker_helper import docker_compose_up, docker_system_prune
+from hooks_helper import execute_inline_script
 
 sync_timeouts = int(os.getenv('SYNC_TIMEOUT', 5))
 deploy_path = "/deploy"
@@ -31,6 +32,10 @@ def main():
         repo_path = os.path.join(deploy_path, repo_name)
         repo["path"] = repo_path
 
+        pre_deploy_script = repo.get('hooks', {}).get('preDeploy', None)
+        post_deploy_script = repo.get('hooks', {}).get('postDeploy', None)
+
+        ## ----------- Deployment: START ----------- 
         # Check if the repository directory already exists
         if os.path.exists(repo_path):
             os.chdir(repo["path"])
@@ -43,8 +48,12 @@ def main():
 
         del repo["source"]["authentication"]
         os.chdir(repo["path"])
+
+        execute_inline_script(pre_deploy_script)
         docker_compose_up(compose_path)
         docker_system_prune()
+        execute_inline_script(post_deploy_script)
+        ## ----------- Deployment: END ----------- 
     return repositories
 
 
