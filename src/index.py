@@ -19,38 +19,46 @@ def main():
 
     # Iterate over repositories
     for repo in repositories:
-        repository = repo.get('repository', '')
-        branch = repo.get('branch', '')
-        oauth2Token = repo.get('oauth2Token', '')
-        dockerComposePath = repo.get('dockerComposePath', '')
+        name = repo.get('name', '')
+        source = repo.get('source', {})
+        branch = source.get('branch', '')
+        repo_url = source.get('repoURL', '')
+        compose_path = source.get('composePath', {})
+        authentication = source.get('authentication', {})
+        oauth2_token = authentication.get('token', '')
 
-        repo_name = os.path.basename(repository).rstrip('.git')
+        repo_name = os.path.basename(repo_url).rstrip('.git')
         repo_path = os.path.join(deploy_path, repo_name)
+        repo["path"] = repo_path
 
         # Check if the repository directory already exists
         if os.path.exists(repo_path):
+            os.chdir(repo["path"])
             # If the directory exists, set the remote URL
-            subprocess.run(['git', 'remote', 'set-url', 'origin', f'https://oauth2:{oauth2Token}@{repository}'], cwd=repo_path, check=True)
+            subprocess.run(['git', 'remote', 'set-url', 'origin', f'https://oauth2:{oauth2_token}@{repo_url}'], cwd=repo_path, check=True)
             subprocess.run(['git', 'checkout', branch], cwd=repo_path, check=True)
         else:
             # Clone the repository
-            subprocess.run(['git', 'clone', f'https://oauth2:{oauth2Token}@{repository}', '--depth', '1', '--single-branch', '--branch', branch], cwd=deploy_path, check=True)
+            subprocess.run(['git', 'clone', f'https://oauth2:{oauth2_token}@{repo_url}', '--depth', '1', '--single-branch', '--branch', branch], cwd=deploy_path, check=True)
 
-        repo["dockerComposePath"] = os.path.join(deploy_path, repo_name, dockerComposePath)
-        del repo["oauth2Token"]
-        os.chdir(repo["dockerComposePath"],)
-        docker_compose_up()
+        del repo["source"]["authentication"]
+        os.chdir(repo["path"])
+        docker_compose_up(compose_path)
         docker_system_prune()
     return repositories
 
 
 def monitor_change(repositories):
-    for repostory in repositories:
-        os.chdir(repostory["dockerComposePath"],)
-        git_monitor_change_result = git_monitor_change(repostory["branch"])
+    for repo in repositories:
+        source = repo.get('source', {})
+        branch = source.get('branch', '')
+        compose_path = source.get('composePath', {})
+
+        os.chdir(repo["path"])
+        git_monitor_change_result = git_monitor_change(branch)
         if(git_monitor_change_result):
             git_pull()
-            docker_compose_up()
+            docker_compose_up(compose_path)
             docker_system_prune()
 
 

@@ -1,5 +1,14 @@
 repositories:
-  - repository: "github.com/redsh4d0w/helloworld.git"
-    branch: "dev"
-    oauth2Token: "TOKEN"
-    dockerComposePath: "utils/deploy"
+  - name: "HelloWorld App"
+    source:
+      repoURL: "github.com/redsh4d0w/helloworld.git" # without scheme
+      branch: "main"
+      composePath: "utils/deploy/docker-compose.yaml"
+      authentication:
+        method: "oauth2"
+        token: "GITHUB_TOKEN"
+    hooks:
+      preDeploy: |
+        echo "Running pre-deploy actions for HelloWorld App"
+      postDeploy: |
+        echo "Running post-deploy actions for HelloWorld App"
