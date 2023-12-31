@@ -3,6 +3,14 @@
 
 Compose GitOps is a tool designed to automate the deployment and synchronization of Docker Compose-based applications from multiple Git repositories. It leverages Docker Compose for managing multi-container Docker applications and Git for version control. This tool is especially useful for orchestrating deployments in a GitOps workflow.
 
+- **Automated Deployment:** Streamline the deployment process for Docker Compose-based applications directly from Git repositories.
+- **Advanced GitOps Workflow:** Automate your workflows with predeploy and postdeploy scripts for intricate configurations.
+- **Private Repository Access:** Easily manage private Git repositories for enhanced security.
+- **Simplified Private Docker Images Access:** Access and manage private repositories seamlessly with an out-of-the-box solution. It allows you to handle private repositories externally.
+- **Predeploy and Postdeploy Scripts:** Execute custom scripts before and after deployment for tailored configuration.
+- **Flexibility:** Enjoy increased flexibility in managing private images, private GitHub repositories, and custom deployment scripts.
+- **Dynamic Volume Creation:** Create volume folders dynamically within GitHub repo folders using predeploy scripts.
+
 ## Prerequisites
 
 Before using Compose GitOps, ensure that you have the following prerequisites installed:
@@ -42,10 +50,19 @@ To quickly set up Compose GitOps, follow these steps:
         
         ```yaml
         repositories:
-          - repository: "github.com/redsh4d0w/helloworld.git"
-            branch: "dev"
-            oauth2Token: "YOUR_GITHUB_TOKEN"
-            dockerComposePath: "utils/deploy"
+        - name: "HelloWorld App"
+            source:
+            repoURL: "github.com/redsh4d0w/helloworld.git" # without scheme
+            branch: "main"
+            composePath: "utils/deploy/docker-compose.yaml"
+            authentication:
+                method: "oauth2"
+                token: "GITHUB_TOKEN"
+            hooks:
+            preDeploy: |
+                echo "Running pre-deploy actions for HelloWorld App"
+            postDeploy: |
+                echo "Running post-deploy actions for HelloWorld App"
         ``` 
         
 2.  **Run Docker Compose:**
