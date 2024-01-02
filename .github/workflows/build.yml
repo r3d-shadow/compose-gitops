@@ -60,8 +60,3 @@ jobs:
             git add .
             git commit -m "[Deployment commit] $IMAGE_TAG"
             git push
-      - name: Cleanup
-        run: |
-          rm -rf /tmp/github
-          echo TEMP LS: $(ls -lahR /tmp/github)
-  

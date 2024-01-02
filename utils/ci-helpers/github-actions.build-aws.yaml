@@ -55,23 +55,14 @@ jobs:
 
       - name: Deployment Update
         env:
-          TOKEN: ${{ secrets.GIT_TOKEN }}
           IMAGE_NAME: ${{ steps.build-image.outputs.image }}
           IMAGE_TAG: ${{ steps.build-image.outputs.image_tag }}
         run: |
-            mkdir /tmp/github
-            cd /tmp/github
-            git clone https://oauth2:$TOKEN@github.com/GITHUB_REPOSITORY_NAME.git --depth 1 --single-branch --branch main
-            cd COMPOSE_FOLDER
             CURRENT_TAG=$(cat docker-compose.yaml | grep -i image| awk -F ':' '{print $NF}')
             sed -i "s/$CURRENT_TAG/$IMAGE_TAG/" docker-compose.yaml
 
-            git config --global user.email "user@gmail.com"
+            git config --global user.email "user@github.com"
             git config --global user.name "Git Actions"
             git add .
             git commit -m "[Deployment commit] $IMAGE_TAG"
             git push
-      - name: Cleanup
-        run: |
-          rm -rf /tmp/github
-          echo TEMP LS: $(ls -lahR /tmp/github)
