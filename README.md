@@ -33,7 +33,7 @@ To quickly set up Compose GitOps, follow these steps:
     
     
     ```bash
-    curl -o docker-compose.yaml https://raw.githubusercontent.com/redsh4d0w/compose-gitops/main/docker-compose.yaml
+    curl -o docker-compose.yaml https://raw.githubusercontent.com/unix-nomad/compose-gitops/main/docker-compose.yaml
     ``` 
     
     This command retrieves the latest `docker-compose.yml` file from the repository.
@@ -59,7 +59,7 @@ To quickly set up Compose GitOps, follow these steps:
         repositories:
         - name: "HelloWorld App"
             source:
-            repoURL: "github.com/redsh4d0w/helloworld.git" # without scheme
+            repoURL: "github.com/unix-nomad/helloworld.git" # without scheme
             branch: "main"
             composePath: "utils/deploy/docker-compose.yaml"
             authentication:
