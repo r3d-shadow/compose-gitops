@@ -7,10 +7,25 @@ import time
 from git_helper import monitor_change as git_monitor_change, git_pull
 from docker_helper import docker_compose_up, docker_system_prune
 from hooks_helper import execute_inline_script
+from aws import ecr_image_login_and_pull
 
 sync_timeouts = int(os.getenv('SYNC_TIMEOUT', 5))
 deploy_path = "/deploy"
 repositories_file = "/src/repositories.yaml"
+
+def get_image_names_from_compose(compose_file="docker-compose.yaml"):
+    image_names = []
+    try:
+        with open(compose_file, 'r') as file:
+            compose_config = yaml.safe_load(file)
+        services = compose_config.get('services', {})
+        for service_name, service_config in services.items():
+            if 'image' in service_config:
+                image_names.append(service_config['image'])
+    except Exception as e:
+        print(f"Error parsing '{compose_file}': {e}")
+
+    return image_names
 
 def main():
     # Read repositories from YAML file
@@ -25,6 +40,7 @@ def main():
         branch = source.get('branch', '')
         repo_url = source.get('repoURL', '')
         compose_path = source.get('composePath', {})
+        dockerAuthenticationType = source.get('dockerAuthenticationType', {})
         authentication = source.get('authentication', {})
         oauth2_token = authentication.get('token', '')
 
@@ -50,6 +66,10 @@ def main():
         os.chdir(repo["path"])
 
         execute_inline_script(pre_deploy_script)
+        images = get_image_names_from_compose(compose_path)
+        if dockerAuthenticationType == "AWS":
+            ecr_image_login_and_pull(images)
+
         docker_compose_up(compose_path)
         docker_system_prune()
         execute_inline_script(post_deploy_script)
@@ -67,6 +87,9 @@ def monitor_change(repositories):
         git_monitor_change_result = git_monitor_change(branch)
         if(git_monitor_change_result):
             git_pull()
+            images = get_image_names_from_compose(compose_path)
+            if dockerAuthenticationType == "AWS":
+                ecr_image_login_and_pull(images)
             docker_compose_up(compose_path)
             docker_system_prune()
 

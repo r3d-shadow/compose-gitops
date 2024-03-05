@@ -7,6 +7,7 @@ repositories:
       authentication:
         method: "oauth2"
         token: "GITHUB_TOKEN"
+      dockerAuthenticationType: AWS # Currently only supports AWS
     hooks:
       preDeploy: |
         echo "Running pre-deploy actions for HelloWorld App"

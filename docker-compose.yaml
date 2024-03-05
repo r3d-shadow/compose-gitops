@@ -10,6 +10,8 @@ services:
     container_name: compose-gitops
     environment:
       - SYNC_TIMEOUT=1 # Default timeout is 5min
+    env_file:
+      - .env
     networks:
       - compose-gitops
     volumes:
