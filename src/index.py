@@ -44,7 +44,10 @@ def main():
         authentication = source.get('authentication', {})
         oauth2_token = authentication.get('token', '')
 
-        repo_name = os.path.basename(repo_url).rstrip('.git')
+        repo_name = os.path.basename(repo_url)
+        repo_name= repo_name.rstrip('git')
+        repo_name= repo_name.rstrip('.')
+
         repo_path = os.path.join(deploy_path, repo_name)
         repo["path"] = repo_path
 
