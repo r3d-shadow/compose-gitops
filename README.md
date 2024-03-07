@@ -109,3 +109,4 @@ To quickly set up Compose GitOps, follow these steps:
 ## Contributing
 
 Feel free to contribute to the development of Compose GitOps. Fork the repository, make your changes, and submit a pull request.
+
