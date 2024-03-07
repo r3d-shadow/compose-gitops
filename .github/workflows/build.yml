@@ -1,3 +1,4 @@
+
 name: "Build and Push to Docker Hub"
 on:
   push:
@@ -17,7 +18,7 @@ jobs:
       - name: Build, tag
         id: build-image
         env:
-          REGISTRY: unixnomad
+          REGISTRY: r3dshadow
           REPOSITORY: compose-gitops
         run: |
           IMAGE_TAG=cg-$(git rev-parse --short HEAD)
