@@ -85,6 +85,7 @@ def monitor_change(repositories):
         source = repo.get('source', {})
         branch = source.get('branch', '')
         compose_path = source.get('composePath', {})
+        dockerAuthenticationType = source.get('dockerAuthenticationType', {})
 
         os.chdir(repo["path"])
         git_monitor_change_result = git_monitor_change(branch)
